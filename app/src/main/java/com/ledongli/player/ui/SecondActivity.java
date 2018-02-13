@@ -18,7 +18,7 @@ import com.ledongli.player.utils.ToastUtils;
  * Created by zpp_zoe on 2018/2/13.
  */
 
-public class SecondActivity extends BaseActivity {
+public class SecondActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String EXTRA_NAME_whichFra = "whichFra";
     public static final int WHITCH_VideoSearchResultList = 100;//搜索结果页
@@ -69,6 +69,17 @@ public class SecondActivity extends BaseActivity {
     private void setTopStyle(String back_text, String title){
         ((TextView)findViewById(R.id.second_tv_nav_back)).setText(back_text);
         ((TextView)findViewById(R.id.second_tv_nav_title)).setText(title);
+        ((TextView)findViewById(R.id.second_tv_nav_back)).setOnClickListener(this);
+        ((TextView)findViewById(R.id.second_tv_nav_title)).setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.second_tv_nav_back:
+            case R.id.second_tv_nav_title:
+                finish();
+                break;
+        }
+    }
 }

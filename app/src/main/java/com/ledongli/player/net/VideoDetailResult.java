@@ -35,7 +35,7 @@ public class VideoDetailResult {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
             result = sdf.format(new Date(onshowtime * 1000));
         }
-        return result;
+        return "发行日期："+result;
     }
     public String getDurationStr(){
         String result=""+duration;
@@ -44,7 +44,7 @@ public class VideoDetailResult {
             return  min +"分钟";
 //            return min / 60 +"小时" + min % 60 +"分钟";
         }
-        return result;
+        return "片长："+result;
     }
 
     public String getActorStrs(){
@@ -54,7 +54,7 @@ public class VideoDetailResult {
                 result += actor.get(i).name+" ";
             }
         }
-        return result;
+        return "演员："+result;
     }
 
 }

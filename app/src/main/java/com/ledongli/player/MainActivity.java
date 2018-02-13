@@ -37,6 +37,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     //status
     int currTabPosi = 0;//当前选中的tab的posi
+    boolean isListCurrSortTypeHot = true;//最热门
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,12 +131,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 viewPager.setCurrentItem(1);
                 break;
             case R.id.main_list_tv_fire:
-                changeSortType(true);
-                fraList.changeSortTypeOfMainVideoList(true);
+                isListCurrSortTypeHot = true;
+                changeSortType(isListCurrSortTypeHot);
+                fraList.changeSortTypeOfMainVideoList(isListCurrSortTypeHot);
                 break;
             case R.id.main_list_tv_new:
-                changeSortType(false);
-                fraList.changeSortTypeOfMainVideoList(false);
+                isListCurrSortTypeHot = false;
+                changeSortType(isListCurrSortTypeHot);
+                fraList.changeSortTypeOfMainVideoList(isListCurrSortTypeHot);
                 break;
             case R.id.main_list_iv_search:
                 //TODO 跳转搜索页面

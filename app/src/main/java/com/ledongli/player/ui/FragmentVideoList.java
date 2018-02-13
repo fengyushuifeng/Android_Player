@@ -21,12 +21,14 @@ import com.ledongli.player.net.VideoListService;
 import com.ledongli.player.net.bean.MovieItemBean;
 import com.ledongli.player.net.bean.MoviesListResult;
 import com.ledongli.player.utils.MyConstant;
+import com.ledongli.player.utils.SPUtils;
 import com.ledongli.player.utils.ToastUtils;
 
 import java.util.ArrayList;
 
 import cn.jzvd.JZVideoPlayer;
 import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
+import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import rx.Observable;
@@ -41,10 +43,11 @@ public class FragmentVideoList extends BaseSecondFragment {
 
     //api
     VideoListService mService;
-
+    //view
     PtrFrameLayout ptrFrameLayout;
     ListView listView;
 
+    //listview的适配器和数据
     VideoListAdapter mAdapter;
     ArrayList<MovieItemBean> dataList = new ArrayList<>();
 
@@ -71,20 +74,38 @@ public class FragmentVideoList extends BaseSecondFragment {
         this.isForCollect = isForCollect;
         return this;
     }
+
+    //获取intent携带的数据，用于设置当前页面的展示情况
+    private void initData() {
+        if (null != getArguments()){
+            isForSearchResultList = getArguments().getBoolean("isForSearchResultList");
+            isSearchByTag = getArguments().getBoolean("isSearchByTag");
+            tagInfo = (HotTagBean) getArguments().getSerializable("tagInfo");
+            keywords =  getArguments().getString("keywords");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInastanceState) {
         initData();
-        mAdapter = new VideoListAdapter(getActivity(),dataList);
+        mAdapter = new VideoListAdapter(getActivity(), dataList, new VideoListAdapter.ItemClickCallback() {
+            @Override
+            public void onCollectClick(int posi, boolean isChecked) {
+                if (isChecked){
+                    SPUtils.addCollectVideo(getActivity().getApplicationContext(),dataList.get(posi));
+                }else{
+                    SPUtils.removeCollectVideo(getActivity().getApplicationContext(),dataList.get(posi).id);
+                }
+            }
+        });
         ptrFrameLayout = (PtrFrameLayout) inflater.inflate(R.layout.layout_list, container, false);
         listView = (ListView) ptrFrameLayout.findViewById(R.id.list_listview);
         listView.setAdapter(mAdapter);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
             }
-
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 JZVideoPlayer.onScrollReleaseAllVideos(view, firstVisibleItem, visibleItemCount, totalItemCount);
@@ -93,12 +114,17 @@ public class FragmentVideoList extends BaseSecondFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO 跳转到视频详情页
                 Intent intent = new Intent(getActivity(),VideoDetailActivity.class);
-                intent.putExtra("MovieItemBean",dataList.get(position));
+//                intent.putExtra("MovieItemBean",dataList.get(position));
+                intent.putExtra("uuid",dataList.get(position).uuid);
                 startActivity(intent);
             }
         });
 
+        PtrClassicDefaultHeader header = new PtrClassicDefaultHeader(getActivity().getApplicationContext());
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
         PtrClassicDefaultFooter footer = new PtrClassicDefaultFooter(getActivity().getApplicationContext());
         ptrFrameLayout.setFooterView(footer);
         ptrFrameLayout.addPtrUIHandler(footer);
@@ -107,6 +133,7 @@ public class FragmentVideoList extends BaseSecondFragment {
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 currPage++;
                 loadDataList();
+                //TODO 以前的分页的代码里带的逻辑，后台服务器会返回总页数，当前请求的页数，以便APP判断
 //                if(null != shopListResult && null != shopListResult.page){
 //                    PageOfData pageData = shopListResult.page;
 //                    if (pageData.page < pageData.page_total ){
@@ -133,33 +160,69 @@ public class FragmentVideoList extends BaseSecondFragment {
                 loadDataList();
             }
         });
-
         return ptrFrameLayout;
     }
 
-    private void initData() {
-        if (null != getArguments()){
-            isForSearchResultList = getArguments().getBoolean("isForSearchResultList");
-            isSearchByTag = getArguments().getBoolean("isSearchByTag");
-            tagInfo = (HotTagBean) getArguments().getSerializable("tagInfo");
-            keywords =  getArguments().getString("keywords");
+    boolean hasNotLoadDataWhenVisiableToUser = false;//fragment创建时就可见的，用该状态为true记录，并在onResume时加载数据
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        //viewpager中的fragment会预加载，此处是判断fragment是否是当前展示的页面，在onCreateView方法前会被调用
+        if (isVisibleToUser){
+            if (null != ptrFrameLayout){
+                loadDataOnVisiableToUser();
+            }else{
+                hasNotLoadDataWhenVisiableToUser = true;
+            }
         }
     }
 
-
+    private void loadDataOnVisiableToUser() {
+        if (isForMainVideoList){
+            //网络请求
+            if (MyConstant.isUseLocalData){
+                //TODO 使用测试数据,展示数据
+                mMoviesListResult = new Gson().fromJson(MyConstant.MovieListResult,MoviesListResult.class);
+                initDataResult();
+            }else{
+                loadDataListForMainVideoList();
+            }
+        }
+        if (isForCollect){
+            //TODO 加载本地存储的收藏列表
+            ArrayList<MovieItemBean> movieItemBeans = SPUtils.getCollectVideoList(getActivity().getApplicationContext());
+            changeDataList(movieItemBeans,"暂无收藏视频");
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadDataList();
+        if (hasNotLoadDataWhenVisiableToUser){
+            loadDataOnVisiableToUser();
+        }
+        if (isForSearchResultList){
+            loadDataListForSearchVideoResultList();
+        }
     }
 
     private void loadDataList() {
         if (isForMainVideoList){
-            loadDataListForMainVideoList();
+            //网络请求
+            if (MyConstant.isUseLocalData){
+                //TODO 使用测试数据,展示数据
+                mMoviesListResult = new Gson().fromJson(MyConstant.MovieListResult,MoviesListResult.class);
+                initDataResult();
+            }else{
+                loadDataListForMainVideoList();
+            }
         }
         if (isForCollect){
-            //加载本地存储的收藏列表
+            //TODO 加载本地存储的收藏列表
+            ArrayList<MovieItemBean> movieItemBeans = SPUtils.getCollectVideoList(getActivity().getApplicationContext());
+            changeDataList(movieItemBeans,"暂无收藏视频");
+            ptrFrameLayout.refreshComplete();
         }
         if (isForSearchResultList){
             loadDataListForSearchVideoResultList();
@@ -212,7 +275,7 @@ public class FragmentVideoList extends BaseSecondFragment {
 
     private void initDataResult() {
         if (mMoviesListResult.errorcode == 0){
-            changeDataList(mMoviesListResult.ret);
+            changeDataList(mMoviesListResult.ret,"暂无相关视频");
         }else{
             ToastUtils.showToast(getActivity().getApplicationContext(),
                     "请求失败："+mMoviesListResult.errormessage);
@@ -221,10 +284,12 @@ public class FragmentVideoList extends BaseSecondFragment {
     }
 
 
-    private void changeDataList(ArrayList<MovieItemBean> data){
+    private void changeDataList(ArrayList<MovieItemBean> data,String noDataToast){
         dataList.clear();
-        if (null != data){
+        if (null != data && data.size()>0){
             dataList.addAll(data);
+        }else{
+            ToastUtils.showToast(getActivity().getApplicationContext(),noDataToast);
         }
         mAdapter.notifyDataSetChanged();
     }

@@ -3,16 +3,21 @@ package com.ledongli.player.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ledongli.player.BaseActivity;
 import com.ledongli.player.R;
 import com.ledongli.player.net.ApiManager;
 import com.ledongli.player.net.BaseResult;
 import com.ledongli.player.net.BaseSubscriber;
+import com.ledongli.player.net.HotTagBean;
 import com.ledongli.player.net.VideoDetailResult;
 import com.ledongli.player.net.VideoDetailService;
 import com.ledongli.player.net.bean.MovieItemBean;
+import com.ledongli.player.utils.DensityUtil;
+import com.ledongli.player.utils.MyConstant;
 import com.ledongli.player.utils.ToastUtils;
 import com.ledongli.player.view.FixGridLayout;
 import com.ledongli.player.view.video.MyJZVideoPlayerStandard;
@@ -68,7 +73,18 @@ public class VideoDetailActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (null == mResult){
-            loadDetailInfos();
+            if (MyConstant.isUseLocalData){
+                try{
+                    VideoDetailResult detailData = new Gson().fromJson(MyConstant.MovieDetailResult,VideoDetailResult.class);
+                    if (null != detailData){
+                        initDataResult(detailData);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else{
+                loadDetailInfos();
+            }
         }
     }
 
@@ -105,14 +121,16 @@ public class VideoDetailActivity extends BaseActivity {
         tvTitle.setText(detailResult.title);
         tvCreateTime.setText(detailResult.getOnShowTimeStr());
         tvDuration.setText(detailResult.getDurationStr());
-        tvActor.setText(detailResult.actor+"");
+        tvActor.setText(detailResult.getActorStrs());
         if (null != detailResult.movietag){
+            int fiveDP = DensityUtil.dip2px(getApplicationContext(),5);
             for (int i=0;i<detailResult.movietag.size() ; i++){
                 TextView tv = new TextView(getApplicationContext());
                 tv.setTag(detailResult.movietag.get(i).id);
                 tv.setText(detailResult.movietag.get(i).tagname);
+                tv.setPadding(fiveDP,fiveDP,fiveDP,fiveDP);
                 tv.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorTextBlack));
-                tv.setBackgroundResource(R.drawable.bg_dialog_loading);
+                tv.setBackgroundResource(R.drawable.bg_videodetail_tags);
                 fglTags.addView(tv);
             }
         }

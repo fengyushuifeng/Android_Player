@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="260dp">
+                android:layout_height="260dp"
+                android:descendantFocusability="blocksDescendants">
     
     <ImageView
         android:id="@+id/item_videolist_iv_thumb"
@@ -21,14 +22,17 @@
         android:textColor="@color/colorWhite"
         android:textSize="14sp"
         android:background="@color/colorBgTransGray"/>
-    <ImageView
-        android:id="@+id/item_list_btn_like"
+    <CheckBox
+        android:id="@+id/item_list_cb_like"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="30dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/tab_like"/>
+        android:checked="false"
+        tools:checked="true"
+        android:button="@null"
+        android:background="@drawable/selector_collect"/>
 
 
     <LinearLayout

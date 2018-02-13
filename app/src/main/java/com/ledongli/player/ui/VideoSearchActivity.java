@@ -18,6 +18,7 @@ import com.ledongli.player.net.HotTagBean;
 import com.ledongli.player.net.HotTagListResult;
 import com.ledongli.player.net.VideoSearchService;
 import com.ledongli.player.utils.DensityUtil;
+import com.ledongli.player.utils.MyConstant;
 import com.ledongli.player.utils.ToastUtils;
 import com.ledongli.player.view.FixGridLayout;
 
@@ -74,18 +75,21 @@ public class VideoSearchActivity extends BaseActivity implements View.OnKeyListe
     @Override
     protected void onResume() {
         super.onResume();
-        //加载搜索标签
-        loadTagsData();
+        if (MyConstant.isUseLocalData){
+            //TODO 测试页面展示
+            ArrayList<HotTagBean> tags = new ArrayList<>();
+            for (int i= 0;i<10;i++){
+                HotTagBean temp = new HotTagBean();
+                temp.id = i;
+                temp.name = "标签"+i;
+                tags.add(temp);
+            }
+            initTagsInfo(tags);
+        }else{
+            //加载搜索标签
+            loadTagsData();
+        }
 
-//        //TODO 测试页面展示
-//        ArrayList<HotTagBean> tags = new ArrayList<>();
-//        for (int i= 0;i<10;i++){
-//            HotTagBean temp = new HotTagBean();
-//            temp.id = i;
-//            temp.name = "标签"+i;
-//            tags.add(temp);
-//        }
-//        initTagsInfo(tags);
     }
 
     private void loadTagsData() {
