@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.ledongli.player.view.video.MyJZVideoPlayerStandard
+        android:id="@+id/videodetail_videoplayer"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/videodetail_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="7dp"
+        tools:text="title"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/colorTextBlack"/>
+
+    <TextView
+        android:id="@+id/videodetail_tv_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="17dp"
+        tools:text="片长:90分钟"
+        android:text="片长:"
+        android:textSize="13sp"
+        android:textColor="@color/colorTextBlack"/>
+    <TextView
+        android:id="@+id/videodetail_tv_create_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="7dp"
+        tools:text="发行日期:2014.06.08"
+        android:text="发行日期:"
+        android:textSize="13sp"
+        android:textColor="@color/colorTextBlack"/>
+    <TextView
+        android:id="@+id/videodetail_tv_actor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="17dp"
+        tools:text="演员:张三"
+        android:text="演员:"
+        android:textSize="13sp"
+        android:textColor="@color/colorTextBlack"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="7dp"
+        android:text="视频标签"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/colorTextBlack"/>
+
+
+    <com.ledongli.player.view.FixGridLayout
+        android:id="@+id/videodetail_fgl_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"/>
+
+
+
+</LinearLayout>

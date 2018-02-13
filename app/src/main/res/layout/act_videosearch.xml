@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_top_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:background="@color/colorRed">
+        <ImageView
+            android:id="@+id/videosearch_iv_nav_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="4dp"
+            android:layout_marginLeft="7dp"
+            android:src="@drawable/navigator_btn_back"/>
+        <EditText
+            android:id="@+id/videoseach_et"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="28dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:maxLines="1"
+            android:imeOptions="actionSearch"
+            android:hint="请输入关键字"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextBlack"
+            android:background="@drawable/bg_video_search_et"/>
+        <TextView
+            android:id="@+id/videoseach_tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_marginLeft="7dp"
+            android:text="取消"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:text="热搜标签"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/colorTextBlack"/>
+    <com.ledongli.player.view.FixGridLayout
+        android:id="@+id/videosearch_fgl_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:mHDivider="5dp"
+        app:mWDivider="5dp"/>
+
+
+</LinearLayout>

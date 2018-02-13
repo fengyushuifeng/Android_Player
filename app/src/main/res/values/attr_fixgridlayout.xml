@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FixLinerLayout">
+        <attr name="lyVisibility">
+            <enum name="Visible" value="0"></enum>
+            <enum name="Gone" value="8"></enum>
+            <enum name="Invisible" value="4"></enum>
+        </attr>
+        <attr
+            name="leftPadding"
+            format="dimension" />
+        <attr
+            name="topPadding"
+            format="dimension" />
+        <attr
+            name="maxCount"
+            format="integer" />
+        <attr
+            name="mHDivider"
+            format="dimension" />
+        <attr
+            name="mWDivider"
+            format="dimension" />
+    </declare-styleable>
+</resources>

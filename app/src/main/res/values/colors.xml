@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ff2422</color>
+    <color name="colorPrimaryDark">#ff3a31</color>
+    <color name="colorAccent">#FF9D52</color>
+    
+    <color name="colorWhite">#fff</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorTextBlack">#333</color>
+    <color name="colorRed">#ff2422</color>
+    <color name="colorTextTabGary">#bbb</color>
+    <color name="colorBgMainTab">#fbfbfb</color>
+    <color name="colorLineAboveMainTab">#eee</color>
+
+    <color name="colorBgLoadingDialog">#777</color><!--弹框背景色-->
+    <color name="colorBgTransGray">#7000</color><!--弹框背景色-->
+
 </resources>

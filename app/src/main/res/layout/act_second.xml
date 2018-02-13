@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_top_height"
+        android:background="@color/colorRed">
+
+        <ImageView
+            android:id="@+id/second_iv_nav_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="4dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:src="@drawable/navigator_btn_back"/>
+        <TextView
+            android:id="@+id/second_tv_nav_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="33dp"
+            android:layout_centerVertical="true"
+            android:text="热搜"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/second_tv_nav_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:text="标题"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/second_frame_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</LinearLayout>

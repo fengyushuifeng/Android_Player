@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+    <RelativeLayout
+        android:id="@+id/main_rly_top_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_top_height"
+        android:background="@color/colorRed">
+
+        <TextView
+            android:id="@+id/main_like_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_centerInParent="true"
+            android:text="我的收藏"
+            android:textSize="16dp"
+            android:textColor="@color/colorWhite"/>
+        <ImageView
+            android:id="@+id/main_list_iv_search"
+            android:layout_width="@dimen/common_top_height"
+            android:layout_height="@dimen/common_top_height"
+            android:layout_alignParentRight="true"
+            android:visibility="visible"
+            tools:visibility="gone"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_search"/>
+        <LinearLayout
+            android:id="@+id/main_list_ly_top_views"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:visibility="visible"
+            tools:visibility="visible"
+            android:padding="1dp"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_main_list_border_line">
+            <TextView
+                android:id="@+id/main_list_tv_fire"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="最热门"
+                android:textSize="14dp"
+                android:textColor="@color/colorRed"
+                tools:textColor="@color/colorWhite"
+                tools:background="@drawable/bg_main_list_fire_unselected"
+                android:background="@drawable/bg_main_list_fire_selected"/>
+            <TextView
+                android:id="@+id/main_list_tv_new"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="新上架"
+                android:textSize="14dp"
+                android:textColor="@color/colorWhite"
+                tools:textColor="@color/colorRed"
+                tools:background="@drawable/bg_main_list_new_selected"
+                android:background="@drawable/bg_main_list_new_unselected"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.ledongli.player.view.ViewPagerSlide
+        android:id="@+id/main_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorLineAboveMainTab"/>
+   
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/colorBgMainTab">
+
+        <TextView
+            android:id="@+id/main_tv_tab_list"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="首页"
+            android:textColor="@color/colorRed"
+            android:drawableTop="@drawable/tab_list_on"
+            android:drawablePadding="5dp"/>
+
+        <TextView
+            android:id="@+id/main_tv_tab_like"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="收藏"
+            android:textColor="@color/colorTextTabGary"
+            android:drawableTop="@drawable/tab_like"
+            android:drawablePadding="5dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
