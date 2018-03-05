@@ -11,6 +11,5 @@ public class HotTagListResult {
     public String errormessage;
     public int errorcode;
 
-    //TODO 需根据接口写对应的字段
-    public ArrayList<HotTagBean> tags;
+    public ArrayList<HotTagBean> ret;
 }

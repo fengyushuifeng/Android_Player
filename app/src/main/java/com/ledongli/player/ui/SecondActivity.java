@@ -45,9 +45,7 @@ public class SecondActivity extends BaseActivity implements View.OnClickListener
                 if (null != intent) {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isForSearchResultList",true);
-                    bundle.putBoolean("isSearchByTag",intent.getBooleanExtra("isSearchByTag",false));
                     bundle.putString("keywords", intent.getStringExtra("keywords"));
-                    bundle.putSerializable("tagInfo", intent.getSerializableExtra("tagInfo"));
                     baseSecondFragment.setArguments(bundle);
                 }
                 setTopStyle("热搜","搜索列表");

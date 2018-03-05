@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -81,7 +82,7 @@ public class VideoSearchActivity extends BaseActivity implements View.OnKeyListe
             for (int i= 0;i<10;i++){
                 HotTagBean temp = new HotTagBean();
                 temp.id = i;
-                temp.name = "标签"+i;
+                temp.tagname = "标签"+i;
                 tags.add(temp);
             }
             initTagsInfo(tags);
@@ -103,7 +104,7 @@ public class VideoSearchActivity extends BaseActivity implements View.OnKeyListe
                         //处理数据
                         if (null != result){
                             if (result.errorcode == 0){
-                                initTagsInfo(result.tags);
+                                initTagsInfo(result.ret);
                             }else{
                                 ToastUtils.showToast(getApplicationContext(),"获取热门标签失败:"+result.errorcode+","+result.errormessage);
                             }
@@ -123,14 +124,14 @@ public class VideoSearchActivity extends BaseActivity implements View.OnKeyListe
                 final HotTagBean tempTagInfo = tags.get(i);
                 TextView tv = new TextView(getApplicationContext());
                 tv.setTag(tags.get(i).id);
-                tv.setText(tags.get(i).name);
+                tv.setText(tags.get(i).tagname);
                 tv.setPadding(fiveDP,fiveDP,fiveDP,fiveDP);
                 tv.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorTextBlack));
                 tv.setBackgroundResource(R.drawable.bg_videodetail_tags);
                 tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO 跳转到搜索结果页，根据标签搜索
+                        //跳转到搜索结果页，根据标签搜索
                         goToVideoResultList(tempTagInfo);
                     }
                 });
@@ -158,28 +159,30 @@ public class VideoSearchActivity extends BaseActivity implements View.OnKeyListe
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_ENTER){//点击确认键进行搜索商品
             keywords = etSearchKey.getText().toString().trim();
-            goToVideoResultList(keywords);
+            if (!TextUtils.isEmpty(keywords)){
+                goToVideoResultList();
+            }else{
+                ToastUtils.showToast(getApplicationContext(),"请输入您要搜索的关键词或直接点击热门标签进行搜索~");
+            }
             return true;
         }
         return false;
     }
 
-    private void goToVideoResultList(String keywords){
+    private void goToVideoResultList(){
         //跳转到搜索页面
         Intent intent = new Intent(this,SecondActivity.class);
         intent.putExtra(SecondActivity.EXTRA_NAME_whichFra,SecondActivity.WHITCH_VideoSearchResultList);
         intent.putExtra("isSearchByTag",false);
-        intent.putExtra("keywords",keywords);
+        intent.putExtra("keywords",etSearchKey.getText().toString());
         startActivity(intent);
         finish();
     }
-
     private void goToVideoResultList(HotTagBean tagInfo){
         //跳转到搜索页面
         Intent intent = new Intent(this,SecondActivity.class);
         intent.putExtra(SecondActivity.EXTRA_NAME_whichFra,SecondActivity.WHITCH_VideoSearchResultList);
-        intent.putExtra("isSearchByTag",true);
-        intent.putExtra("tagInfo",tagInfo);
+        intent.putExtra("keywords",tagInfo.tagname);
         startActivity(intent);
         finish();
     }

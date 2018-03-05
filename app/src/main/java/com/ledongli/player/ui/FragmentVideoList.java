@@ -56,12 +56,12 @@ public class FragmentVideoList extends BaseSecondFragment {
     boolean isForMainVideoList = false;//是否是首页 = index==0
     /////搜索结果页///////
     boolean isForSearchResultList = false;//是否是展示的视频搜索结果页
-    boolean isSearchByTag = false;//是否是根据tag搜索
+//    boolean isSearchByTag = false;//是否是根据tag搜索
     //////收藏页 ////////
     boolean isForCollect = false;//是否是收藏列表 = index==1
     //post数据
     String keywords;              //仅搜索结果页使用
-    HotTagBean tagInfo;           //仅搜索结果页使用
+//    HotTagBean tagInfo;           //仅搜索结果页使用
     int currPage = 0;//从？1？开始 //搜藏页+结果收藏页
     String sortPostValue = "hot"; //搜藏页+结果收藏页
 
@@ -79,8 +79,8 @@ public class FragmentVideoList extends BaseSecondFragment {
     private void initData() {
         if (null != getArguments()){
             isForSearchResultList = getArguments().getBoolean("isForSearchResultList");
-            isSearchByTag = getArguments().getBoolean("isSearchByTag");
-            tagInfo = (HotTagBean) getArguments().getSerializable("tagInfo");
+//            isSearchByTag = getArguments().getBoolean("isSearchByTag");
+//            tagInfo = (HotTagBean) getArguments().getSerializable("tagInfo");
             keywords =  getArguments().getString("keywords");
         }
     }
@@ -249,14 +249,8 @@ public class FragmentVideoList extends BaseSecondFragment {
         if (null == mService){
             mService = ApiManager.getInstence().createServiceFrom(VideoListService.class);
         }
-        if (isSearchByTag){
-            //TODO 根据接口写出对应请求
-//            Observable<MoviesListResult> call = mService.getMovieSearchResultList(currPage,"all","");
-//            getDataResult(call);
-        }else{
-            Observable<MoviesListResult> call = mService.getMovieSearchResultList(currPage,"all",keywords);
-            getDataResult(call);
-        }
+        Observable<MoviesListResult> call = mService.getMovieSearchResultList(currPage,"all",keywords);
+        getDataResult(call);
     }
 
     private void getDataResult(Observable<MoviesListResult> call) {

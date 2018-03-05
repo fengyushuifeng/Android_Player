@@ -7,7 +7,7 @@ package com.ledongli.player.utils;
 
 public class MyConstant {
 
-    public static final boolean isUseLocalData = true;//设置为true则使用下方的测试数据。需要网络请求数据，修改为false即可
+    public static final boolean isUseLocalData = false;//设置为true则使用下方的测试数据。需要网络请求数据，修改为false即可
     public static final boolean isShowSysText = true;
 
 

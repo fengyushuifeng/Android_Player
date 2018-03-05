@@ -10,5 +10,9 @@ import java.io.Serializable;
 public class HotTagBean implements Serializable {
     //TODO 需根据接口写对应的字段
     public int id;
+//    public String movie;
+    public String tagname;
     public String name;
+    public long createtime;
+    public long updatetime;
 }
