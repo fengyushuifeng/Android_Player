@@ -24,6 +24,9 @@ public class SPUtils {
 
     ///////////////////////////////////////////
 
+    public static String getCollectVideoListStr(Context ctx){
+        return getStrFromSP(ctx,SPName_VideoCollectList,SPKey_VideoCollectList_data);
+    }
     public static ArrayList<MovieItemBean> getCollectVideoList(Context ctx){
         String listStr = getStrFromSP(ctx,SPName_VideoCollectList,SPKey_VideoCollectList_data);
         return GsonUtil.getMovieListFormJsonStr(listStr);
@@ -45,15 +48,8 @@ public class SPUtils {
     }
 
     public static boolean isVideoCollected(Context ctx,int movieId){
-        ArrayList<MovieItemBean> list = getCollectVideoList(ctx);
-        if (null != list && list.size()>0){
-            for (int i=0;i<list.size();i++){
-                if (movieId == list.get(i).id){
-                    return true;
-                }
-            }
-        }
-        return false;
+        String listJsonStr = getCollectVideoListStr(ctx);
+        return listJsonStr.contains("\"id\":"+movieId+",");
     }
     public static void removeCollectVideo(Context ctx,int movieId){
         ArrayList<MovieItemBean> list = getCollectVideoList(ctx);

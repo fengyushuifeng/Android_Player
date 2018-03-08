@@ -28,11 +28,11 @@ public class VideoListAdapter extends BaseAdapter {
     }
 
     Context context;
-    ItemClickCallback itemClickCallback;
+//    ItemClickCallback itemClickCallback;
     ArrayList<MovieItemBean> dataList;
 
-    public VideoListAdapter(Context context, ArrayList<MovieItemBean> dataList,ItemClickCallback itemClickCallback) {
-        this.itemClickCallback = itemClickCallback;
+    public VideoListAdapter(Context context, ArrayList<MovieItemBean> dataList) {
+//        this.itemClickCallback = itemClickCallback;
         this.context = context;
         this.dataList = dataList;
     }
@@ -72,18 +72,22 @@ public class VideoListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //
+        final int posi = position;
+        viewHolder.cbCollectStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    SPUtils.addCollectVideo(context,dataList.get(posi));
+                }else{
+                    SPUtils.removeCollectVideo(context.getApplicationContext(),dataList.get(posi).id);
+                }
+            }
+        });
         if (SPUtils.isVideoCollected(context,dataList.get(position).id)){
             viewHolder.cbCollectStatus.setChecked(true);
         }else{
             viewHolder.cbCollectStatus.setChecked(false);
         }
-        final int posi = position;
-        viewHolder.cbCollectStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                itemClickCallback.onCollectClick(posi,isChecked);
-            }
-        });
 
         Picasso.with(convertView.getContext())
                 .load(dataList.get(position).getCoverimageUrl())

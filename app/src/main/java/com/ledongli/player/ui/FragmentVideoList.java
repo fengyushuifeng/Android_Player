@@ -89,16 +89,7 @@ public class FragmentVideoList extends BaseSecondFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInastanceState) {
         initData();
-        mAdapter = new VideoListAdapter(getActivity(), dataList, new VideoListAdapter.ItemClickCallback() {
-            @Override
-            public void onCollectClick(int posi, boolean isChecked) {
-                if (isChecked){
-                    SPUtils.addCollectVideo(getActivity().getApplicationContext(),dataList.get(posi));
-                }else{
-                    SPUtils.removeCollectVideo(getActivity().getApplicationContext(),dataList.get(posi).id);
-                }
-            }
-        });
+        mAdapter = new VideoListAdapter(getActivity(), dataList);
         ptrFrameLayout = (PtrFrameLayout) inflater.inflate(R.layout.layout_list, container, false);
         listView = (ListView) ptrFrameLayout.findViewById(R.id.list_listview);
         listView.setAdapter(mAdapter);
@@ -269,6 +260,10 @@ public class FragmentVideoList extends BaseSecondFragment {
 
     private void initDataResult() {
         if (mMoviesListResult.errorcode == 0){
+            if(MyConstant.isUseLocalData){
+                mMoviesListResult.ret.addAll(mMoviesListResult.ret);
+                mMoviesListResult.ret.addAll(mMoviesListResult.ret);
+            }
             changeDataList(mMoviesListResult.ret,"暂无相关视频");
         }else{
             ToastUtils.showToast(getActivity().getApplicationContext(),
