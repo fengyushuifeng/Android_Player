@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     //status
     int currTabPosi = 0;//当前选中的tab的posi
     boolean isListCurrSortTypeHot = true;//最热门
-
+// 看到了吗 en一个 Android -个project 怎么打包？
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
