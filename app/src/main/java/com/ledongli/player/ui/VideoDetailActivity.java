@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ledongli.player.BaseActivity;
@@ -67,10 +70,26 @@ public class VideoDetailActivity extends BaseActivity {
         tvActor = (TextView) findViewById(R.id.videodetail_tv_actor);
         fglTags = (FixGridLayout) findViewById(R.id.videodetail_fgl_tags);
 
+        // 导航返回键
+        ImageButton back = (ImageButton)findViewById(R.id.Back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                        finish();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
+
+
+
+
         super.onResume();
         if (null == mResult){
             if (MyConstant.isUseLocalData){
@@ -111,38 +130,62 @@ public class VideoDetailActivity extends BaseActivity {
 
     private void initDataResult(VideoDetailResult detailResult) {
 
+
         myJZVideoPlayerStandard = findViewById(R.id.videodetail_videoplayer);
+
         myJZVideoPlayerStandard.setUp(detailResult.playurl
                 , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, detailResult.title);
+
+
         Picasso.with(this)
                 .load(detailResult.getCoverimageUrl())
                 .into(myJZVideoPlayerStandard.thumbImageView);
 
         tvTitle.setText(detailResult.title);
+
         tvCreateTime.setText(detailResult.getOnShowTimeStr());
+
         tvDuration.setText(detailResult.getDurationStr());
+
         tvActor.setText(detailResult.getActorStrs());
+
         if (null != detailResult.movietag){
+
             int fiveDP = DensityUtil.dip2px(getApplicationContext(),5);
+
             for (int i=0;i<detailResult.movietag.size() ; i++){
                 TextView tv = new TextView(getApplicationContext());
+
                 tv.setTag(detailResult.movietag.get(i).id);
+
                 tv.setText(detailResult.movietag.get(i).tagname);
+
                 tv.setPadding(fiveDP,fiveDP,fiveDP,fiveDP);
+
                 tv.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorTextBlack));
+
                 tv.setBackgroundResource(R.drawable.bg_videodetail_tags);
+
                 fglTags.addView(tv);
             }
         }
 
     }
 
+    /**
+     * 暂停 /失去焦点
+     * Activity或者按Home键之后会视频就会releas(释放)
+     */
     @Override
     protected void onPause() {
         super.onPause();
         JZVideoPlayer.releaseAllVideos();
     }
 
+    /**
+     * backPress函数判断了点击回退按钮的相应，
+     * 如果全屏会退出全屏播放，如果不是全屏则会交给Activity
+     */
     @Override
     public void onBackPressed() {
         if (JZVideoPlayer.backPress()) {

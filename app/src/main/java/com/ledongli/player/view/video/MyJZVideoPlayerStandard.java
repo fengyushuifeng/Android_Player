@@ -2,8 +2,10 @@ package com.ledongli.player.view.video;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ledongli.player.R;
 
@@ -30,6 +32,7 @@ public class MyJZVideoPlayerStandard extends JZVideoPlayerStandard {
 
     @Override
     public void onClick(View v) {
+
         super.onClick(v);
         int i = v.getId();
         if (i == cn.jzvd.R.id.fullscreen) {
@@ -53,6 +56,8 @@ public class MyJZVideoPlayerStandard extends JZVideoPlayerStandard {
 
     @Override
     public void startVideo() {
+
+        Log.d("开始播放","开始播放");
         super.startVideo();
     }
 
@@ -64,6 +69,14 @@ public class MyJZVideoPlayerStandard extends JZVideoPlayerStandard {
     @Override
     public void onStatePreparing() {
         super.onStatePreparing();
+
+        if (seekToInAdvance < 10000){
+
+            seekToInAdvance = 10000;
+        }
+
+
+
     }
 
     @Override
