@@ -47,7 +47,7 @@ public class ApiManager {
 
     private static final int ConnectTimeOutSeconds = 5;//请求5秒超时
 
-//    //封装请求体
+//    //封装请求体 你想看啥
 //    public RequestBody getRequestBody(Map postData){
 //        String jsonPostData = new JSONObject(postData).toString();
 //        if (jsonPostData ==null){
