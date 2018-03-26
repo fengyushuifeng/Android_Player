@@ -5,6 +5,11 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 功能描述：
  * Created by zpp_zoe on 2017/11/1.
@@ -50,4 +55,5 @@ public class ActivityUtils {
         }
         return true;
     }
+
 }

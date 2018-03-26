@@ -113,6 +113,9 @@ public class BaseActivity extends AppCompatActivity implements ILoadingDialogLis
     private String[] permissionCallPhone = {
             Manifest.permission.CALL_PHONE
     };
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
 
     private static final int PERMISSON_REQUESTCODE = 0;
 
@@ -145,6 +148,11 @@ public class BaseActivity extends AppCompatActivity implements ILoadingDialogLis
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    public boolean checkPermissionsOfStorage(){
+        needPermissions = PERMISSIONS_STORAGE;
+        return checkPermissionsOfList();
     }
 
     public boolean checkPermissionsOfCallPhone(){

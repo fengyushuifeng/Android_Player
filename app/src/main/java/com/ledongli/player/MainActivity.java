@@ -1,5 +1,6 @@
 package com.ledongli.player;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,16 +8,32 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.ledongli.player.net.ApiManager;
+import com.ledongli.player.net.BaseResult;
+import com.ledongli.player.net.BaseSubscriber;
+import com.ledongli.player.net.bean.MoviesListResult;
 import com.ledongli.player.ui.FragmentVideoList;
 import com.ledongli.player.ui.VideoSearchActivity;
+import com.ledongli.player.utils.ActivityUtils;
+import com.ledongli.player.utils.MyConstant;
+import com.ledongli.player.utils.ToastUtils;
+import com.ledongli.player.utils.UpdateManager;
+import com.ledongli.player.utils.downloadfile.UpdateApkInfoResult;
+import com.ledongli.player.utils.downloadfile.UpdateApkService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener,View.OnClickListener {
     List<FragmentVideoList> fragmentList = new ArrayList<>();
@@ -67,6 +84,66 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         tvListTypeHot.setOnClickListener(this);
         tvListTypeLastet.setOnClickListener(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //检查存储权限
+        boolean isPermissionOk = checkPermissionsOfStorage();
+        if (isPermissionOk){
+            checkApkUpdate();
+        }
+    }
+
+    boolean isUseLocaData = true;
+    int currVersionCode = 0;
+//    private UpdateApkService mUpdateApkService;
+    UpdateApkInfoResult mResult;
+    private void checkApkUpdate() {
+        UpdateApkService mUpdateApkService = ApiManager.getInstence().createServiceFrom(UpdateApkService.class);
+        currVersionCode = ActivityUtils.getAppVersionCode(getApplicationContext());
+        Observable<BaseResult<UpdateApkInfoResult>> call =
+                mUpdateApkService.getViewVersionInfo();
+        call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResult<UpdateApkInfoResult>>(this) {
+                    @Override
+                    public void onNext(BaseResult<UpdateApkInfoResult> result) {
+                        if (null != result){
+                            if (result.errorcode == 0){
+                                if (isUseLocaData){
+                                    //TODO 使用测试数据,展示数据
+                                    mResult = new UpdateApkInfoResult();
+                                    mResult.version_name = "1.0.0";
+                                    mResult.version_num = 100;
+                                    mResult.apk_url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_249423_web_inner_referral_binded.apk?x-oss-process=udf%2Fpp-udf%2CJjc3LiMnJ3R0dXN2";
+                                }else{
+                                    mResult = result.ret;
+                                }
+                            }else{
+                                ToastUtils.showToast(getApplicationContext(),"检查版本更新失败:"+result.errorcode+","+result.errormessage);
+                            }
+                        }else{
+                            ToastUtils.showToast(getApplicationContext(),"检查版本更新失败");
+                        }
+                        initUpdateApkInfos();
+                    }
+                });
+    }
+    UpdateManager update;
+    private void initUpdateApkInfos() {
+        if (null != mResult && currVersionCode != 0){
+            String newApkUrl = mResult.apk_url;
+            if (!TextUtils.isEmpty(newApkUrl)){
+                if (null == update){
+                    update = new UpdateManager(this,currVersionCode,
+                            newApkUrl,mResult.version_num,mResult.version_name,false);
+                }
+                update.showNoticeDialog();
+            }
+        }
+    }
+
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -141,7 +218,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 fraList.changeSortTypeOfMainVideoList(isListCurrSortTypeHot);
                 break;
             case R.id.main_list_iv_search:
-                //TODO 跳转搜索页面
+                //跳转搜索页面
                 Intent intent  = new Intent(this, VideoSearchActivity.class);
                 startActivity(intent);
                 break;

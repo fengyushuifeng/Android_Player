@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.ledongli.player.utils.downloadfile.ProgressListener;
+import com.ledongli.player.utils.downloadfile.ProgressResponseBody;
+import com.ledongli.player.utils.downloadfile.UpdateApkService;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -93,74 +97,27 @@ public class ApiManager {
         return adapter.create(serviceClass);
     }
 
-    //////////////////////////
-//    public static final String MD5KEY = "sld_ddb";
-//    public static String getMD5Result(String string){
-//        if (TextUtils.isEmpty(string)) {
-//            return "";
-//        }
-//        MessageDigest md5 = null;
-//        try {
-//            md5 = MessageDigest.getInstance("MD5");
-//            byte[] bytes = md5.digest((string+MD5KEY).getBytes());
-//            String result = "";
-//            for (byte b : bytes) {
-//                String temp = Integer.toHexString(b & 0xff);
-//                if (temp.length() == 1) {
-//                    temp = "0" + temp;
-//                }
-//                result += temp;
-//            }
-//            return result;
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
-
-//    /**
-//     * 统一弹出返回服务器返回的Json结果的错误信息
-//     * @param act
-//     * @param data
-//     * @param apiName 为null时不展示toast
-//     * @param <T>
-//     * @return
-//     */
-//    //须要验证token的接口，若返回1004，则跳转登陆
-//    public <T> T judgeBaseMessage(Activity act, BaseMessage<T> data, String apiName,boolean isForTokenOverDateOrWrong){
-//        if (null == act ){
-//            return null;
-//        }
-//        if (act instanceof BaseActivity){
-//            return judgeBaseMessage((BaseActivity) act,data,apiName,isForTokenOverDateOrWrong);
-//        }
-//        return judgeBaseMessage(act.getApplicationContext(),data,apiName);
-//
-//    }
-//    public <T> T judgeBaseMessage(BaseActivity act, BaseMessage<T> data, String apiName,boolean isForTokenOverDateOrWrong){
-//        if (null == act){
-//            return null;
-//        }
-//        if (null != data && data.getCode() == RESULTCode_ReLogin){
-//            if (isForTokenOverDateOrWrong){
-//                //token过期，则检测并登录
-//                SPUtils.getInstance().clearLoginInfo(act.getApplicationContext());
-//                ActivityUtils.checkIsLoginAndGoLogin(act);
-//            }
-//        }
-//        return judgeBaseMessage(act.getApplicationContext(),data,apiName);
-//    }
-//    public <T> T judgeBaseMessage(Context ctx, BaseMessage<T> data, String apiName){
-//        if (null == data ){
-//            ToastUtils.showToast(ctx,"网络请求，获取数据失败");
-//            return null;
-//        }else if (data.getCode() != RESULTCode_Success){
-//            if (StringUtils.checkIsNotNullStr(apiName) ||  MyConstant.isShowSysText){//api为null时不展示toast
-//                ToastUtils.showToast(ctx,apiName+" 失败："+data.getCode()+"，"+data.getMessage());
-//            }
-//            return null;
-//        }
-//        return data.getData();
-//    }
+    //////////////////////////文件下载
+    public static  Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BasePHPUrl);
+    private static OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10000, TimeUnit.MILLISECONDS)
+            .readTimeout(10000,TimeUnit.MILLISECONDS)
+            .writeTimeout(10000,TimeUnit.MILLISECONDS).build();
+    public static void downloadFileProgress(String apkUrl, final ProgressListener listener, Callback<ResponseBody> callback){
+        //okhttp拦截
+        OkHttpClient client = okHttpClient.newBuilder().addNetworkInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                okhttp3.Response response = chain.proceed(chain.request());
+                return response.newBuilder().body(new ProgressResponseBody(response.body(),listener)).build();
+            }
+        }).build();
+        UpdateApkService downloadRetrofit =
+                retrofitBuilder.client(client).build().create(UpdateApkService.class);
+        downloadRetrofit.downloadFileWithDynamicUrlSync(apkUrl).enqueue(callback);
+    }
 
 }
