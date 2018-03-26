@@ -5,6 +5,27 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorRed"
+        >
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="4dp"
+            android:layout_marginLeft="7dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/Back"
+            android:src="@drawable/navigator_btn_back"
+            android:scaleType="centerInside"
+            android:background="#00000000"
+
+            />
+    </RelativeLayout>
+
     <com.ledongli.player.view.video.MyJZVideoPlayerStandard
         android:id="@+id/videodetail_videoplayer"
         android:layout_width="match_parent"

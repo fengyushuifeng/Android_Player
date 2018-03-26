@@ -27,12 +27,13 @@ public class MovieItemBean implements Serializable{
     public String movietag;//假设为“aaa;bbb;ccc;”tag数据以分号隔开
 
     public String getCoverimageUrl(){
-        int index = coverimage.indexOf(";");
-        if (index != -1){
-            //数据异常的处理，应返回一张图片，实际上返回了两张图片且以;隔开的时候，截取第一张
-            return coverimage.substring(0,index);
+
+        if (coverimage.indexOf(";") < 0) {
+
+            return  coverimage;
         }
-        return coverimage;
+
+        return coverimage.substring(0,coverimage.indexOf(";"));
     }
 
     public String getOnShowTimeStr(){
