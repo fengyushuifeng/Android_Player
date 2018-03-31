@@ -48,7 +48,7 @@ public class UpdateManager {
     private long speed;//下载速度
     private boolean cancelFlag = false; //取消下载标志位
 
-    private int serverVersion = 0; //从服务器获取的版本号
+    private float serverVersion = 0; //从服务器获取的版本号
     private int clientVersion = 0; //客户端当前的版本号
     private String new_version_name = ""; //新版本名
 //    private String updateDescription = ""; //更新内容描述信息
@@ -60,7 +60,7 @@ public class UpdateManager {
      * @param context activity
      */
     public UpdateManager(Context context, int clientVersion,
-                         String apkDownloadUrl, int serverVersion, String new_version_name, boolean forceUpdate) {
+                         String apkDownloadUrl, float serverVersion, String new_version_name, boolean forceUpdate) {
         this.mContext = context;
         this.apkUrl = apkDownloadUrl;
         this.forceUpdate = forceUpdate;

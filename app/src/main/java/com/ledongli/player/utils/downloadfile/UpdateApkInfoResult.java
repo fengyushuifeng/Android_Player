@@ -18,9 +18,9 @@ public class UpdateApkInfoResult {
 //        return type == 2;
 //    }
 
-    public String version_name;//版本名称，用于展示
-    public int version_num;//版本号，用于比较
-    public String apk_url;//最新版本链接
+    public String version_name;//版本名称，用于展示,,,由code转成
+    public float version_num;//版本号，用于比较，对应code
+//    public String apk_url;//最新版本链接
     public String code;//废弃
     public String download;//废弃
 }

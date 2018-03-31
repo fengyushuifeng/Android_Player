@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-    boolean isUseLocaData = true;
+//    boolean isUseLocaData = false;
     int currVersionCode = 0;
 //    private UpdateApkService mUpdateApkService;
     UpdateApkInfoResult mResult;
@@ -111,15 +111,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     public void onNext(BaseResult<UpdateApkInfoResult> result) {
                         if (null != result){
                             if (result.errorcode == 0){
-                                if (isUseLocaData){
-                                    //TODO 使用测试数据,展示数据
-                                    mResult = new UpdateApkInfoResult();
-                                    mResult.version_name = "1.0.0";
-                                    mResult.version_num = 100;
-                                    mResult.apk_url = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_249423_web_inner_referral_binded.apk?x-oss-process=udf%2Fpp-udf%2CJjc3LiMnJ3R0dXN2";
-                                }else{
-                                    mResult = result.ret;
-                                }
+//                                if (isUseLocaData){
+//                                    //TODO 使用测试数据,展示数据
+//                                    mResult = new UpdateApkInfoResult();
+//                                    mResult.version_name = "1.0.0";
+//                                    mResult.version_num = 100f;
+//                                    mResult.download = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_249423_web_inner_referral_binded.apk?x-oss-process=udf%2Fpp-udf%2CJjc3LiMnJ3R0dXN2";
+//                                }else{
+//                                    mResult = result.ret;
+//                                }
+                                mResult = result.ret;
                             }else{
                                 ToastUtils.showToast(getApplicationContext(),"检查版本更新失败:"+result.errorcode+","+result.errormessage);
                             }
@@ -132,8 +133,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
     UpdateManager update;
     private void initUpdateApkInfos() {
-        if (null != mResult && currVersionCode != 0){
-            String newApkUrl = mResult.apk_url;
+        if (null != mResult && currVersionCode != 0 && mResult.code != null){
+            try{
+                mResult.version_num = Float.parseFloat(mResult.code);
+            }catch (Exception e){
+            }
+            mResult.version_name = mResult.code;
+            mResult.version_num = 100;
+            String newApkUrl = mResult.download;
             if (!TextUtils.isEmpty(newApkUrl)){
                 if (null == update){
                     update = new UpdateManager(this,currVersionCode,
