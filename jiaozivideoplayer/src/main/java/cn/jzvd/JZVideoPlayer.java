@@ -33,6 +33,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * changed by zpp on 2018-03-31
  * Created by Nathen on 16/7/30.
  */
 public abstract class JZVideoPlayer extends FrameLayout implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
@@ -119,13 +120,16 @@ public abstract class JZVideoPlayer extends FrameLayout implements View.OnClickL
     protected float mDownX;
     protected float mDownY;
     protected boolean mChangeVolume;
-    protected boolean mChangePosition;
+    protected boolean mChangePosition;//标记状态，手势down时记录为false,若开始快进或者快退状态时，记为true
     protected boolean mChangeBrightness;
-    protected long mGestureDownPosition;
+    protected long mGestureDownPosition;//滑动超过一定的距离（absDeltaX >= THRESHOLD）时，即开始快进和快退状态时，视频的当前播放位置
     protected int mGestureDownVolume;
     protected float mGestureDownBrightness;
     protected long mSeekTimePosition;
     boolean tmp_test_back = false;
+
+    //zpp:
+    private int mScreenWidthSeekSecond = 30;//屏幕从左滑动到右方，快进或者快退的秒数。用来控制快进快退的灵敏度？
 
     public JZVideoPlayer(Context context) {
         super(context);
@@ -533,9 +537,13 @@ public abstract class JZVideoPlayer extends FrameLayout implements View.OnClickL
                             }
                         }
                     }
+                    //当前为快进或者快退状态时
                     if (mChangePosition) {
                         long totalTimeDuration = getDuration();
-                        mSeekTimePosition = (int) (mGestureDownPosition + deltaX * totalTimeDuration / mScreenWidth);
+                        //原始代码计算逻辑：可理解为滑动一整屏的宽度时，能够从视频开头跳转到结尾
+//                        mSeekTimePosition = (int) (mGestureDownPosition + deltaX * totalTimeDuration / mScreenWidth);
+                        //修改为：totalTimeDuration单位为ms
+                        mSeekTimePosition = (int) (mGestureDownPosition + deltaX * mScreenWidthSeekSecond * 1000 / mScreenWidth);
                         if (mSeekTimePosition > totalTimeDuration)
                             mSeekTimePosition = totalTimeDuration;
                         String seekTime = JZUtils.stringForTime(mSeekTimePosition);
