@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -236,8 +237,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 .subscribe(new BaseSubscriber<BaseResult<VersionServiceResult>>() {
                     @Override
                     public void onNext(final BaseResult<VersionServiceResult> result) {
-
-                       if(Float.parseFloat( result.ret.code ) > getVerCode(MainActivity.this)){
+                      
+                       if(Float.parseFloat( result.ret.code ) >  getVerCode(MainActivity.this)){
                            //弹框 这个算不上强制更新，就这就行 不更新不能用  但是你点更新，这个限制就没了- -无所谓
                            final View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_download,null);
                            new AlertDialog.Builder(MainActivity.this)
@@ -289,6 +290,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + fileName);
 
         final ProgressBar progressBar = dialog.findViewById(R.id.dialog_pb_progress);
+
         final TextView textView = dialog.findViewById(R.id.dialog_tv_progress);
 
         RequestParams params = new RequestParams(url);
@@ -310,6 +312,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
                 startActivity(intent);
+
             }
 
             @Override
@@ -340,9 +343,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             // 你等下我找一个apk 的连接 你试试看看能不能安装
             @Override
             public void onLoading(long total, long current, boolean isDownloading) {
-                progressBar.setProgress((int)(current * 100 / total));
+
+                progressBar.setProgress((int)(current * 1000 / total),true);
                 //刚才断点下载了，
-                //textView.setText(String.format("%s/%s",current/1024 > 1024 ? current + "mb" : current + "kb",total/1024/1024 + "mb"));
             }
         });
     }
