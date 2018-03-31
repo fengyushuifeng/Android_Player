@@ -7,8 +7,8 @@
     <color name="colorWhite">#fff</color>
     <color name="colorBlack">#000</color>
     <color name="colorTextBlack">#333</color>
-    <color name="colorRed">#ff2422</color>
-    <color name="colorTextTabGary">#bbb</color>
+    <color name="colorRed">#ff3b3d</color>
+    <color name="colorTextTabGary">#999</color>
     <color name="colorBgMainTab">#fbfbfb</color>
     <color name="colorLineAboveMainTab">#eee</color>
 

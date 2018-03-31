@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-//    boolean isUseLocaData = false;
+    boolean isUseLocaData = false;
     int currVersionCode = 0;
 //    private UpdateApkService mUpdateApkService;
     UpdateApkInfoResult mResult;
@@ -111,16 +111,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     public void onNext(BaseResult<UpdateApkInfoResult> result) {
                         if (null != result){
                             if (result.errorcode == 0){
-//                                if (isUseLocaData){
-//                                    //TODO 使用测试数据,展示数据
-//                                    mResult = new UpdateApkInfoResult();
-//                                    mResult.version_name = "1.0.0";
-//                                    mResult.version_num = 100f;
-//                                    mResult.download = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_249423_web_inner_referral_binded.apk?x-oss-process=udf%2Fpp-udf%2CJjc3LiMnJ3R0dXN2";
-//                                }else{
-//                                    mResult = result.ret;
-//                                }
-                                mResult = result.ret;
+                                if (isUseLocaData){
+                                    //TODO 使用测试数据,展示数据
+                                    mResult = new UpdateApkInfoResult();
+                                    mResult.code = "1.1";
+                                    mResult.download = "http://oss.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_249423_web_inner_referral_binded.apk?x-oss-process=udf%2Fpp-udf%2CJjc3LiMnJ3R0dXN2";
+                                }else{
+                                    mResult = result.ret;
+                                }
+//                                mResult = result.ret;
                             }else{
                                 ToastUtils.showToast(getApplicationContext(),"检查版本更新失败:"+result.errorcode+","+result.errormessage);
                             }
