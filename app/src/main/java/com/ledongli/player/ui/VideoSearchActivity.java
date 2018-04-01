@@ -76,20 +76,8 @@ public class VideoSearchActivity extends BaseActivity implements View.OnKeyListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (MyConstant.isUseLocalData){
-            //TODO 测试页面展示
-            ArrayList<HotTagBean> tags = new ArrayList<>();
-            for (int i= 0;i<10;i++){
-                HotTagBean temp = new HotTagBean();
-                temp.id = i;
-                temp.tagname = "标签"+i;
-                tags.add(temp);
-            }
-            initTagsInfo(tags);
-        }else{
-            //加载搜索标签
-            loadTagsData();
-        }
+        //加载搜索标签
+        loadTagsData();
 
     }
 

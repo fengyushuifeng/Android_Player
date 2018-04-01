@@ -12,7 +12,7 @@ import com.ledongli.player.net.VersionItem;
 
 public class VersionServiceResult {
 
-//    public String errormessage;
+//    public String errormesaage;
 //    public int errorcode;
 //    public VersionItem ret;
 public  String code;

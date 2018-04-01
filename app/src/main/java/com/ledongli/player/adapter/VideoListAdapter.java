@@ -57,7 +57,7 @@ public class VideoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
+        ViewHolder viewHolder;
         if (null == convertView) {
             viewHolder = new ViewHolder();
             LayoutInflater mInflater = LayoutInflater.from(context);

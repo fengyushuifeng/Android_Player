@@ -1,6 +1,5 @@
 package com.ledongli.player;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,15 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.ledongli.player.net.ApiManager;
 import com.ledongli.player.net.BaseResult;
 import com.ledongli.player.net.BaseSubscriber;
-import com.ledongli.player.net.bean.MoviesListResult;
 import com.ledongli.player.ui.FragmentVideoList;
 import com.ledongli.player.ui.VideoSearchActivity;
 import com.ledongli.player.utils.ActivityUtils;
-import com.ledongli.player.utils.MyConstant;
 import com.ledongli.player.utils.ToastUtils;
 import com.ledongli.player.utils.UpdateManager;
 import com.ledongli.player.utils.downloadfile.UpdateApkInfoResult;
@@ -121,7 +117,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                 }
 //                                mResult = result.ret;
                             }else{
-                                ToastUtils.showToast(getApplicationContext(),"检查版本更新失败:"+result.errorcode+","+result.errormessage);
+                                ToastUtils.showToast(getApplicationContext(),"检查版本更新失败:"+result.errorcode+","+result.errormesaage);
                             }
                         }else{
                             ToastUtils.showToast(getApplicationContext(),"检查版本更新失败");

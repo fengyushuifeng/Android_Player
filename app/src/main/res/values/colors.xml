@@ -13,6 +13,6 @@
     <color name="colorLineAboveMainTab">#eee</color>
 
     <color name="colorBgLoadingDialog">#777</color><!--弹框背景色-->
-    <color name="colorBgTransGray">#7000</color><!--弹框背景色-->
+    <color name="colorBgTransGray">#555554</color><!--弹框背景色-->
 
 </resources>

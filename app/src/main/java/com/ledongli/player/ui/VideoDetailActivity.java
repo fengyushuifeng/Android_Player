@@ -4,23 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.ledongli.player.BaseActivity;
 import com.ledongli.player.R;
 import com.ledongli.player.net.ApiManager;
 import com.ledongli.player.net.BaseResult;
 import com.ledongli.player.net.BaseSubscriber;
-import com.ledongli.player.net.HotTagBean;
 import com.ledongli.player.net.VideoDetailResult;
 import com.ledongli.player.net.VideoDetailService;
-import com.ledongli.player.net.bean.MovieItemBean;
 import com.ledongli.player.utils.DensityUtil;
-import com.ledongli.player.utils.MyConstant;
 import com.ledongli.player.utils.ToastUtils;
 import com.ledongli.player.view.FixGridLayout;
 import com.ledongli.player.view.video.MyJZVideoPlayerStandard;
@@ -86,24 +80,9 @@ public class VideoDetailActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-
-
-
-
         super.onResume();
         if (null == mResult){
-            if (MyConstant.isUseLocalData){
-                try{
-                    VideoDetailResult detailData = new Gson().fromJson(MyConstant.MovieDetailResult,VideoDetailResult.class);
-                    if (null != detailData){
-                        initDataResult(detailData);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else{
-                loadDetailInfos();
-            }
+            loadDetailInfos();
         }
     }
 
@@ -119,7 +98,7 @@ public class VideoDetailActivity extends BaseActivity {
                             if (result.errorcode == 0){
                                 initDataResult(result.ret);
                             }else{
-                                ToastUtils.showToast(getApplicationContext(),"获取详情失败:"+result.errorcode+","+result.errormessage);
+                                ToastUtils.showToast(getApplicationContext(),"获取详情失败:"+result.errorcode+","+result.errormesaage);
                             }
                         }else{
                             ToastUtils.showToast(getApplicationContext(),"获取详情失败");
@@ -148,7 +127,7 @@ public class VideoDetailActivity extends BaseActivity {
         tvDuration.setText(detailResult.getDurationStr());
 
         tvActor.setText(detailResult.getActorStrs());
-
+        fglTags.removeAllViews();
         if (null != detailResult.movietag){
 
             int fiveDP = DensityUtil.dip2px(getApplicationContext(),5);

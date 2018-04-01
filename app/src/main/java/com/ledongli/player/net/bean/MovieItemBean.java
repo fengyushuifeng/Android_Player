@@ -18,7 +18,7 @@ public class MovieItemBean implements Serializable{
     public String uuid;
     public String coverimage;//图片
     public String title;//电影名字
-    public int duration;//单位：秒
+    public int duration;//单位：秒  20170401-修改为单位分钟
     public long onshowtime;//时间？1402156800，单位秒
     public long createtime;
     public long updatetime;
@@ -45,13 +45,7 @@ public class MovieItemBean implements Serializable{
         return result;
     }
     public String getDurationStr(){
-        String result=""+duration;
-        if (duration>0){
-            int min = duration / 60;
-            return  min +"分钟";
-//            return min / 60 +"小时" + min % 60 +"分钟";
-        }
-        return result;
+        return  duration +"分钟";
     }
 
     public String[] getTags(){

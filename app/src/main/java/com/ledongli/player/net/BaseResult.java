@@ -8,7 +8,7 @@ package com.ledongli.player.net;
 public class BaseResult<T> {
 
     public int errorcode;
-    public String errormessage;
+    public String errormesaage;
     public T ret;
 
     public int getErrorcode() {
@@ -19,12 +19,12 @@ public class BaseResult<T> {
         this.errorcode = errorcode;
     }
 
-    public String getErrormessage() {
-        return errormessage;
+    public String getErrormesaage() {
+        return errormesaage;
     }
 
-    public void setErrormessage(String errormessage) {
-        this.errormessage = errormessage;
+    public void setErrormesaage(String errormesaage) {
+        this.errormesaage = errormesaage;
     }
 
     public T getRet() {

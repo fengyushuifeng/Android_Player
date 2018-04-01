@@ -17,7 +17,7 @@ public class VideoDetailResult {
     public String uuid;
     public String coverimage;//图片
     public String title;//电影名字
-    public int duration;//单位：秒
+    public int duration;//单位：秒,2017-0401-单位修改为分钟
     public long onshowtime;//时间？1402156800，单位秒
     public long createtime;
     public long updatetime;
@@ -26,7 +26,9 @@ public class VideoDetailResult {
     public ArrayList<MovieTagBean> movietag;//假设为“aaa;bbb;ccc;”tag数据以分号隔开
 
     public String getCoverimageUrl(){
-        return coverimage.substring(0,coverimage.indexOf(";"));
+        int index = coverimage.indexOf(";");
+        if (index == -1) return coverimage;
+        return coverimage.substring(0,index);
     }
 
     public String getOnShowTimeStr(){
@@ -38,13 +40,7 @@ public class VideoDetailResult {
         return "发行日期："+result;
     }
     public String getDurationStr(){
-        String result=""+duration;
-        if (duration>0){
-            int min = duration / 60;
-            return  min +"分钟";
-//            return min / 60 +"小时" + min % 60 +"分钟";
-        }
-        return "片长："+result;
+        return  "片长："+duration +"分钟";
     }
 
     public String getActorStrs(){

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 android:descendantFocusability="blocksDescendants">
@@ -11,28 +12,17 @@
         android:layout_height="200dp"
         android:scaleType="fitXY"
         android:background="@color/colorTextTabGary"/>
+
     <TextView
         android:id="@+id/item_videolist_tv_title"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginTop="200dp"
+        android:background="@color/colorBgTransGray"
         android:gravity="center_vertical|left"
         android:paddingLeft="7dp"
-        tools:text="电影名称"
         android:textColor="@color/colorWhite"
         android:textSize="14sp"
-        android:background="@color/colorBgTransGray"/>
-    <CheckBox
-        android:id="@+id/item_list_cb_like"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_alignParentRight="true"
-        android:checked="false"
-        tools:checked="true"
-        android:button="@null"
-        android:background="@drawable/selector_collect"/>
+        tools:text="电影名称"/>
 
 
     <LinearLayout
@@ -64,16 +54,26 @@
             android:layout_height="18dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="7dp"
-            android:background="@drawable/playcount"/>
+            android:background="@drawable/time"/>
         <TextView
             android:id="@+id/item_videolist_tv_duration"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             tools:text="90分钟"
             android:textSize="13sp"
             android:textColor="@color/colorWhite"/>
+        <CheckBox
+            android:id="@+id/item_list_cb_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:checked="false"
+            tools:checked="true"
+            android:button="@null"
+            android:background="@drawable/selector_collect"/>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

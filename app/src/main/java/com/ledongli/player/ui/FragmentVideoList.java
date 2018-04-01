@@ -172,13 +172,7 @@ public class FragmentVideoList extends BaseSecondFragment {
     private void loadDataOnVisiableToUser() {
         if (isForMainVideoList){
             //网络请求
-            if (MyConstant.isUseLocalData){
-                //TODO 使用测试数据,展示数据
-                mMoviesListResult = new Gson().fromJson(MyConstant.MovieListResult,MoviesListResult.class);
-                initDataResult();
-            }else{
-                loadDataListForMainVideoList();
-            }
+            loadDataListForMainVideoList();
         }
         if (isForCollect){
             //TODO 加载本地存储的收藏列表
@@ -201,16 +195,17 @@ public class FragmentVideoList extends BaseSecondFragment {
     private void loadDataList() {
         if (isForMainVideoList){
             //网络请求
-            if (MyConstant.isUseLocalData){
-                //TODO 使用测试数据,展示数据
-                mMoviesListResult = new Gson().fromJson(MyConstant.MovieListResult,MoviesListResult.class);
-                initDataResult();
-            }else{
-                loadDataListForMainVideoList();
-            }
+//            if (MyConstant.isUseLocalData){
+//                //使用测试数据,展示数据
+//                mMoviesListResult = new Gson().fromJson(MyConstant.MovieListResult,MoviesListResult.class);
+//                initDataResult();
+//            }else{
+//                loadDataListForMainVideoList();
+//            }
+            loadDataListForMainVideoList();
         }
         if (isForCollect){
-            //TODO 加载本地存储的收藏列表
+            //加载本地存储的收藏列表
             ArrayList<MovieItemBean> movieItemBeans = SPUtils.getCollectVideoList(getActivity().getApplicationContext());
             changeDataList(movieItemBeans,"暂无收藏视频");
             ptrFrameLayout.refreshComplete();
@@ -260,10 +255,10 @@ public class FragmentVideoList extends BaseSecondFragment {
 
     private void initDataResult() {
         if (mMoviesListResult.errorcode == 0){
-            if(MyConstant.isUseLocalData){
-                mMoviesListResult.ret.addAll(mMoviesListResult.ret);
-                mMoviesListResult.ret.addAll(mMoviesListResult.ret);
-            }
+//            if(MyConstant.isUseLocalData){
+//                mMoviesListResult.ret.addAll(mMoviesListResult.ret);
+//                mMoviesListResult.ret.addAll(mMoviesListResult.ret);
+//            }
             changeDataList(mMoviesListResult.ret,"暂无相关视频");
         }else{
             ToastUtils.showToast(getActivity().getApplicationContext(),
