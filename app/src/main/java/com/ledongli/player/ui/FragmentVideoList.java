@@ -269,7 +269,9 @@ public class FragmentVideoList extends BaseSecondFragment {
 
 
     private void changeDataList(ArrayList<MovieItemBean> data,String noDataToast){
-        dataList.clear();
+        if (currPage == 0){
+            dataList.clear();
+        }
         if (null != data && data.size()>0){
             dataList.addAll(data);
         }else{
