@@ -62,7 +62,7 @@ public class FragmentVideoList extends BaseSecondFragment {
     //post数据
     String keywords;              //仅搜索结果页使用
 //    HotTagBean tagInfo;           //仅搜索结果页使用
-    int currPage = 0;//从？1？开始 //搜藏页+结果收藏页
+    int currPage = 1;//从？1？开始 //搜藏页+结果收藏页
     String sortPostValue = "hot"; //搜藏页+结果收藏页
 
 
@@ -269,7 +269,7 @@ public class FragmentVideoList extends BaseSecondFragment {
 
 
     private void changeDataList(ArrayList<MovieItemBean> data,String noDataToast){
-        if (currPage == 0){
+        if (currPage == 1 || isForCollect){
             dataList.clear();
         }
         if (null != data && data.size()>0){

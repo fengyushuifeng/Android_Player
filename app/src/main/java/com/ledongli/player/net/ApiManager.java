@@ -47,7 +47,8 @@ public class ApiManager {
     }
     public static final int RESULTCode_Success = 0;
 
-    public static final String BasePHPUrl = "http://47.104.137.0:8080/v1/";
+    public static final String BasePHPUrl = "http://172.105.212.131:8080/v1/";
+//    public static final String BasePHPUrl = "http://47.104.137.0:8080/v1/";
 
     private static final int ConnectTimeOutSeconds = 5;//请求5秒超时
 

@@ -14,7 +14,7 @@ public class MyConstant {
     public static final String SD_PATH = Environment
             .getExternalStorageDirectory().getAbsolutePath();
     public static final String BASE_DIR = SD_PATH + "/LeDongLiPlayer/";
-    public static final boolean isShowSysText = true;
+    public static final boolean isShowSysText = false;
 
 
 
